@@ -46,6 +46,7 @@ body {
 .temperature, .weather, .day {
     background-color: var(--widget-background);
     padding: 8px;
+    z-index: -1;
 }
 
 .weather {
