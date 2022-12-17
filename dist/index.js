@@ -220,12 +220,16 @@ const magnify_namespaceObject = __webpack_require__.p + "images/img_eeadf8038b4f
 const API_KEY = '649f476528e8be8ecbf48bc1d874c839';
 let forecastData;
 let app_location = 'Seoul';
+let units = 'standard';
 
 async function updateData(location, units) {
+  const loading = document.querySelector('.loading');
+  loading.classList.remove('hidden');
   const forecastResp = await fetch(
     `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=${units}&appid=${API_KEY}`,
     { mode: 'cors' }
   );
+  loading.classList.add('hidden');
   forecastData = await forecastResp.json();
   if (forecastData.cod === '400') throw 'Nothing to geocode';
 }
@@ -240,21 +244,22 @@ function loadWeather() {
     'https://openweathermap.org/img/wn/' +
     weatherData.weather[0].icon +
     '@4x.png';
-  humid.textContent = weatherData.main.humidity;
-  rain.textContent = weatherData.pop;
+  humid.textContent = 'humidity: ' + weatherData.main.humidity + '%';
+  rain.textContent = 'chance of rain: ' + weatherData.pop * 100 + '%';
 
   const temperature = document.querySelector('.temperature');
   const name = temperature.querySelector('.name');
   const temp = temperature.querySelector('.temp');
   const lowHigh = temperature.querySelector('.low-high');
 
-  name.textContent = weatherData.name;
-  temp.textContent = weatherData.main.temp;
+  name.textContent = forecastData.city.name;
+  temp.textContent = weatherData.main.temp + '°';
   lowHigh.textContent =
     'L: ' +
     weatherData.main.temp_min +
-    ' H: ' +
-    weatherData.main.temp_max;
+    '° H: ' +
+    weatherData.main.temp_max +
+    '°';
 }
 
 function loadForecast() {
@@ -286,8 +291,6 @@ function loadForecast() {
     });
   }
 
-  console.log(dayData);
-
   for (let i = 0; i < days.length; ++i) {
     const name = days[i].querySelector('.day-name');
     const temp = days[i].querySelector('.day-temp');
@@ -297,12 +300,13 @@ function loadForecast() {
     const rain = days[i].querySelector('.day-rain');
 
     name.textContent = dayData[i].day;
-    temp.textContent = dayData[i].temp;
+    temp.textContent = dayData[i].temp + '°';
     lh.textContent =
-      'L: ' + dayData[i].low + ' H: ' + dayData[i].high;
+      'L: ' + dayData[i].low + '° H: ' + dayData[i].high + '°';
     icon.src = dayData[i].icon;
-    humid.textContent = dayData[i].humid;
-    rain.textContent = dayData[i].rain;
+    humid.textContent = 'humidity: ' + dayData[i].humid + '%';
+    rain.textContent =
+      'chance of rain: ' + dayData[i].rain * 100 + '%';
   }
 }
 
@@ -346,7 +350,7 @@ function initUI() {
   const searchBtn = search.querySelector('button');
   searchBtn.addEventListener('click', () => {
     if (searchInput.value === app_location) return;
-    updateLocation(searchInput.value);
+    updateLocation(searchInput.value, units);
   });
 
   const searchImg = searchBtn.querySelector('img');
@@ -358,7 +362,8 @@ function initUI() {
     if (celcius.classList.contains('active')) return;
     celcius.classList.add('active');
     fahrenheit.classList.remove('active');
-    updateLocation(app_location, 'metric');
+    units = 'metric';
+    updateLocation(app_location, units);
   });
 
   const fahrenheit = convert.querySelector('.fahrenheit');
@@ -366,7 +371,8 @@ function initUI() {
     if (fahrenheit.classList.contains('active')) return;
     fahrenheit.classList.add('active');
     celcius.classList.remove('active');
-    updateLocation(app_location, 'standard');
+    units = 'standard';
+    updateLocation(app_location, 'units');
   });
 }
 
