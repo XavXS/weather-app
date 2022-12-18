@@ -1,6 +1,6 @@
-# H1 Weather App
+# Weather App
 
-Weather app assignment from The Odin Project
+## Weather app assignment from The Odin Project
 
 Features:
 
