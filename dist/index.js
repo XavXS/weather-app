@@ -220,7 +220,7 @@ const magnify_namespaceObject = __webpack_require__.p + "images/img_eeadf8038b4f
 const API_KEY = '649f476528e8be8ecbf48bc1d874c839';
 let forecastData;
 let app_location = 'Seoul';
-let units = 'standard';
+let units = 'imperial';
 
 async function updateData(location, units) {
   const loading = document.querySelector('.loading');
@@ -332,8 +332,9 @@ function getDayOfWeek(num) {
 
 async function updateLocation(
   newLocation = 'Seoul',
-  units = 'standard'
+  units = 'imperial'
 ) {
+  console.log(units);
   try {
     await updateData(newLocation, units);
     app_location = newLocation;
@@ -373,7 +374,7 @@ function initUI() {
     if (fahrenheit.classList.contains('active')) return;
     fahrenheit.classList.add('active');
     celcius.classList.remove('active');
-    units = 'standard';
+    units = 'imperial';
     updateLocation(app_location, units);
   });
 }
@@ -390,4 +391,3 @@ init();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.js.map

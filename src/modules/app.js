@@ -4,7 +4,7 @@ import searchIcon from '../img/magnify.png';
 const API_KEY = '649f476528e8be8ecbf48bc1d874c839';
 let forecastData;
 let location = 'Seoul';
-let units = 'standard';
+let units = 'imperial';
 
 async function updateData(location, units) {
   const loading = document.querySelector('.loading');
@@ -116,7 +116,7 @@ function getDayOfWeek(num) {
 
 async function updateLocation(
   newLocation = 'Seoul',
-  units = 'standard'
+  units = 'imperial'
 ) {
   try {
     await updateData(newLocation, units);
@@ -157,7 +157,7 @@ function initUI() {
     if (fahrenheit.classList.contains('active')) return;
     fahrenheit.classList.add('active');
     celcius.classList.remove('active');
-    units = 'standard';
+    units = 'imperial';
     updateLocation(location, units);
   });
 }
