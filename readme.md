@@ -1,8 +1,8 @@
 # Weather App
 
-## Weather app assignment from The Odin Project
+### Weather app assignment from The Odin Project
 
-Features:
+### Features:
 
 - Forecasts the next 5 days
 - Current weather
