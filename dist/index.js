@@ -230,8 +230,9 @@ async function updateData(location, units) {
     { mode: 'cors' }
   );
   loading.classList.add('hidden');
-  forecastData = await forecastResp.json();
-  if (forecastData.cod === '400') throw 'Nothing to geocode';
+  const forecastJson = await forecastResp.json();
+  if (forecastJson.cod !== '200') throw 'Invalid city';
+  forecastData = forecastJson;
 }
 
 function loadWeather() {
@@ -333,9 +334,9 @@ async function updateLocation(
   newLocation = 'Seoul',
   units = 'standard'
 ) {
-  app_location = newLocation;
   try {
-    await updateData(app_location, units);
+    await updateData(newLocation, units);
+    app_location = newLocation;
   } catch (err) {
     console.error(err);
     return;
@@ -349,7 +350,8 @@ function initUI() {
   const searchInput = search.querySelector('input');
   const searchBtn = search.querySelector('button');
   searchBtn.addEventListener('click', () => {
-    if (searchInput.value === app_location) return;
+    if (searchInput.value === app_location || searchInput.value === '')
+      return;
     updateLocation(searchInput.value, units);
   });
 

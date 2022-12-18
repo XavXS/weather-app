@@ -18,7 +18,7 @@ body {
     grid-template-columns: 1.5fr 1fr;
     grid-template-rows: 32px 1fr 1fr;
     gap: 8px;
-    padding: 8px;
+    padding: 16px;
     background-color: rgb(59, 59, 59);
 }
 
@@ -36,6 +36,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
 .loading > h1 {
@@ -46,7 +47,6 @@ body {
 .temperature, .weather, .day {
     background-color: var(--widget-background);
     padding: 8px;
-    z-index: -1;
 }
 
 .weather {
@@ -78,13 +78,13 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 8px;
+    z-index: 0;
 }
 
 .temperature > .name {
     font-size: 3.5rem;
     align-self: end;
     justify-self: center;
-
 }
 
 .temperature > .low-high {
@@ -113,9 +113,18 @@ body {
 
 .temp-convert > button {
     font-size: 1.5rem;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
+    position: relative;
+
     width: 32px;
     height: 32px;
+
+    transition: color 0.2s;
+}
+
+.temp-convert > button:not(.active):hover {
+    cursor: pointer;
+    color: var(--accent-color);
 }
 
 .temp-convert > button.active {
@@ -171,7 +180,7 @@ body {
     transition: 0.25s;
 }
 
-.search > button:hover {
+.search > button:not(.active):hover {
     cursor:pointer
 }
 
