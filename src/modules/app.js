@@ -158,7 +158,7 @@ function initUI() {
     fahrenheit.classList.add('active');
     celcius.classList.remove('active');
     units = 'standard';
-    updateLocation(location, 'units');
+    updateLocation(location, units);
   });
 }
 
